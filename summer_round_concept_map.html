@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planning for Summer Round — Transcend</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Open Sans', system-ui, sans-serif;
+      background: #f4f6f9;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: #fff;
+      max-width: 680px;
+      width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 0 0 28px;
+    }
+
+    /* Goal banner */
+    .goal-bar {
+      background: #1A4C81;
+      padding: 18px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .goal-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-top: 64px solid #EF464B;
+      border-left: 64px solid transparent;
+    }
+    .goal-pill {
+      background: #ADE0EE;
+      color: #1A4C81;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .goal-text {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.55;
+      max-width: 500px;
+    }
+    .goal-text span { color: #ADE0EE; }
+
+    /* Section label */
+    .section-label {
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: #888;
+      padding: 14px 24px 10px;
+    }
+
+    /* Steps */
+    .steps { padding: 0 24px; display: flex; flex-direction: column; gap: 0; }
+
+    .step-card {
+      border: 1px solid #e0e8f0;
+      border-left: 5px solid #ccc;
+      cursor: pointer;
+      transition: box-shadow 0.18s;
+      background: #fff;
+    }
+    .step-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      user-select: none;
+    }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px;
+      line-height: 1;
+      min-width: 36px;
+      letter-spacing: -1px;
+    }
+    .step-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
+    .step-sub { font-size: 12px; color: #777; margin-top: 3px; line-height: 1.4; }
+    .step-chevron {
+      margin-left: auto;
+      font-size: 18px;
+      color: #aaa;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .step-chevron.open { transform: rotate(180deg); }
+
+    .step-details { display: none; padding: 0 18px 16px 68px; }
+    .step-details.open { display: block; }
+
+    .detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      line-height: 1.55;
+      margin-bottom: 7px;
+      color: #333;
+    }
+    .dot { width: 7px; height: 7px; flex-shrink: 0; margin-top: 5px; }
+
+    .callout {
+      border-left: 4px solid #ccc;
+      padding: 9px 13px;
+      font-size: 12.5px;
+      line-height: 1.6;
+      margin: 8px 0 4px;
+    }
+    .detail-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 10px 0 6px;
+    }
+
+    /* Arrow */
+    .connector { display: flex; justify-content: center; padding: 3px 0; }
+
+    /* Timeline */
+    .timeline { margin: 20px 24px 0; border-top: 3px solid #1A4C81; padding-top: 14px; }
+    .tl-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: #1A4C81;
+      margin-bottom: 10px;
+    }
+    .tl-phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+    .tl-phase {
+      padding: 9px 8px 7px;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.3;
+      color: #fff;
+    }
+    .tl-tasks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 3px; }
+    .tl-col { font-size: 11px; line-height: 1.45; color: #666; padding: 6px 4px; }
+    .tl-item { padding-left: 12px; position: relative; margin-bottom: 4px; }
+    .tl-item::before { content: '—'; position: absolute; left: 0; color: #bbb; }
+
+    /* Transcend logo wordmark hint */
+    .footer {
+      text-align: right;
+      padding: 0 24px;
+      margin-top: 18px;
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: 0.5px;
+    }
+    .footer span { color: #1A4C81; font-weight: 700; }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <!-- Goal -->
+  <div class="goal-bar">
+    <div class="goal-pill">The Goal</div>
+    <div class="goal-text">
+      Ready to begin Round 1 on Day 1 — with <span>clear direction, strong conditions, prepared staff,</span> and systems in place to support implementation and learning.
+    </div>
+  </div>
+
+  <div class="section-label">Planning for Summer Round — 4 Steps</div>
+
+  <div class="steps">
+
+    <!-- Step 1 -->
+    <div class="step-card" style="border-left-color: #1A4C81;" onclick="toggleStep(this)">
+      <div class="step-header">
+        <div class="step-num" style="color: #1A4C81;">01</div>
+        <div>
+          <div class="step-title" style="color: #1A4C81;">Identify structures &amp; constraints</div>
+          <div class="step-sub">Know what you're working with before you plan anything</div>
+        </div>
+        <div class="step-chevron">▾</div>
+      </div>
+      <div class="step-details">
+        <div class="detail-row"><div class="dot" style="background:#1A4C81"></div>On- and off-contract dates for all staff</div>
+        <div class="detail-row"><div class="dot" style="background:#1A4C81"></div>District requirements: PD days, mandatory meetings</div>
+        <div class="detail-row"><div class="dot" style="background:#1A4C81"></div>Anticipated leadership or staffing changes</div>
+        <div class="detail-row"><div class="dot" style="background:#1A4C81"></div>Competing priorities and shared collaboration windows</div>
+        <div class="callout" style="border-left-color: #ADE0EE; background: #f0f6fb;">
+          <strong style="color:#1A4C81;">Start early.</strong> Gather this in spring — at Journey Planning Meeting 3 or in March/April — well before you need it.
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="connector">
+      <svg width="20" height="26" viewBox="0 0 20 26">
+        <line x1="10" y1="0" x2="10" y2="18" stroke="#1A4C81" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <polygon points="10,26 4,16 16,16" fill="#1A4C81"/>
+      </svg>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-card" style="border-left-color: #59C3B4;" onclick="toggleStep(this)">
+      <div class="step-header">
+        <div class="step-num" style="color: #59C3B4;">02</div>
+        <div>
+          <div class="step-title" style="color: #218380;">Name the builds &amp; decisions needed</div>
+          <div class="step-sub">Work backward from Round 1 to surface everything that must be ready</div>
+        </div>
+        <div class="step-chevron">▾</div>
+      </div>
+      <div class="step-details">
+        <div class="detail-group-label" style="color:#218380;">Decisions to finalize</div>
+        <div class="detail-row"><div class="dot" style="background:#59C3B4"></div>Remaining strategic decisions not yet resolved in Journey Planning</div>
+        <div class="detail-row"><div class="dot" style="background:#59C3B4"></div>Decisions dependent on staffing or district finalization</div>
+        <div class="detail-group-label" style="color:#218380;">Builds to create (examples)</div>
+        <div class="detail-row"><div class="dot" style="background:#59C3B4"></div>Round 1 Plan — data plan, meeting agendas, project management</div>
+        <div class="detail-row"><div class="dot" style="background:#59C3B4"></div>Pre-service PD and workstream training materials</div>
+        <div class="detail-row"><div class="dot" style="background:#59C3B4"></div>Teacher-facing tools: look-fors, observation tools, surveys</div>
+        <div class="detail-row"><div class="dot" style="background:#59C3B4"></div>Data trackers, dashboards, internal PM systems</div>
+        <div class="detail-row"><div class="dot" style="background:#59C3B4"></div>Community communication materials</div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="connector">
+      <svg width="20" height="26" viewBox="0 0 20 26">
+        <line x1="10" y1="0" x2="10" y2="18" stroke="#1A4C81" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <polygon points="10,26 4,16 16,16" fill="#1A4C81"/>
+      </svg>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-card" style="border-left-color: #EF464B;" onclick="toggleStep(this)">
+      <div class="step-header">
+        <div class="step-num" style="color: #EF464B;">03</div>
+        <div>
+          <div class="step-title" style="color: #c0242a;">Prioritize builds &amp; decisions by timing</div>
+          <div class="step-sub">Sequence work around staff availability, not just urgency</div>
+        </div>
+        <div class="step-chevron">▾</div>
+      </div>
+      <div class="step-details">
+        <div class="callout" style="border-left-color:#EF464B; background:#fff5f5;">
+          <strong style="color:#EF464B;">The sequencing principle:</strong><br>
+          Decisions <em>before</em> people leave → Building <em>while</em> people are away → Refinement &amp; launch <em>when</em> people return
+        </div>
+        <div class="detail-group-label" style="color:#c0242a; margin-top:12px;">Ask for each build or decision:</div>
+        <div class="detail-row"><div class="dot" style="background:#EF464B"></div>Must this be done before pre-service PD?</div>
+        <div class="detail-row"><div class="dot" style="background:#EF464B"></div>Must this be done before Day 1?</div>
+        <div class="detail-row"><div class="dot" style="background:#EF464B"></div>Can this wait until early Round 1?</div>
+        <div class="detail-row"><div class="dot" style="background:#EF464B"></div>Who needs to be involved — and when are they available?</div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="connector">
+      <svg width="20" height="26" viewBox="0 0 20 26">
+        <line x1="10" y1="0" x2="10" y2="18" stroke="#1A4C81" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <polygon points="10,26 4,16 16,16" fill="#1A4C81"/>
+      </svg>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-card" style="border-left-color: #99C24D;" onclick="toggleStep(this)">
+      <div class="step-header">
+        <div class="step-num" style="color: #99C24D;">04</div>
+        <div>
+          <div class="step-title" style="color: #4a6e1a;">Create the Summer Meeting Calendar &amp; Build Plan</div>
+          <div class="step-sub">Turn priorities into a real plan: who does what, when</div>
+        </div>
+        <div class="step-chevron">▾</div>
+      </div>
+      <div class="step-details">
+        <div class="detail-row"><div class="dot" style="background:#99C24D"></div>Assign clear ownership to every build and decision</div>
+        <div class="detail-row"><div class="dot" style="background:#99C24D"></div>Schedule summer check-ins and planning team meetings</div>
+        <div class="detail-row"><div class="dot" style="background:#99C24D"></div>Map work across all four phases: Late Spring through Launch</div>
+        <div class="detail-row"><div class="dot" style="background:#99C24D"></div>Use a shared build tracker to manage the plan</div>
+        <div class="callout" style="border-left-color:#99C24D; background:#f6fbee;">
+          <strong style="color:#4a6e1a;">This step makes the plan real.</strong> Without it, summer plans stay aspirational — and teams enter the year still getting organized instead of implementing and learning.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /steps -->
+
+  <!-- Timeline -->
+  <div class="timeline">
+    <div class="tl-label">When the Work Happens</div>
+    <div class="tl-phases">
+      <div class="tl-phase" style="background:#1A4C81;">Late Spring</div>
+      <div class="tl-phase" style="background:#218380;">Mid-Summer</div>
+      <div class="tl-phase" style="background:#59C3B4; color:#0d3030;">Late Summer</div>
+      <div class="tl-phase" style="background:#EF464B;">Launch</div>
+    </div>
+    <div class="tl-tasks">
+      <div class="tl-col">
+        <div class="tl-item">Finalize Journey Plan</div>
+        <div class="tl-item">Make key decisions</div>
+        <div class="tl-item">Outline Round 1 Plan</div>
+        <div class="tl-item">Schedule summer meetings</div>
+      </div>
+      <div class="tl-col">
+        <div class="tl-item">Set up PM &amp; data systems</div>
+        <div class="tl-item">Draft PD materials</div>
+        <div class="tl-item">Draft teacher tools</div>
+        <div class="tl-item">Draft surveys &amp; trackers</div>
+      </div>
+      <div class="tl-col">
+        <div class="tl-item">Check in with leaders</div>
+        <div class="tl-item">Review &amp; revise builds</div>
+        <div class="tl-item">Confirm priorities</div>
+        <div class="tl-item">Finalize Round 1 Plan</div>
+      </div>
+      <div class="tl-col">
+        <div class="tl-item">Finalize all materials</div>
+        <div class="tl-item">Planning Team Launch</div>
+        <div class="tl-item">Confirm roles &amp; cadence</div>
+        <div class="tl-item">Deliver pre-service PD</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">A <span>Transcend</span> Design Journey Resource</div>
+
+</div><!-- /card -->
+
+<script>
+  function toggleStep(card) {
+    const details = card.querySelector('.step-details');
+    const chevron = card.querySelector('.step-chevron');
+    const isOpen = details.classList.contains('open');
+    document.querySelectorAll('.step-details').forEach(d => d.classList.remove('open'));
+    document.querySelectorAll('.step-chevron').forEach(c => c.classList.remove('open'));
+    if (!isOpen) {
+      details.classList.add('open');
+      chevron.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>
